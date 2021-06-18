@@ -1,0 +1,34 @@
+version: "3.5"
+
+services:
+  traefik:
+    image: traefik:latest
+    restart: always
+    container_name: traefik
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - $PWD/data/traefik.yml:/traefik.yml:ro
+      - $PWD/data/configurations:/configurations
+      - $PWD/data/logs/:/data/logs:rw
+      - $PWD/data/acme.json:/acme.json:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.traefik-secure.entrypoints=websecure"
+      - "traefik.http.routers.traefik-secure.rule=Host(`goalkeeper.tzf-foryou.com`)"
+      - "traefik.http.routers.traefik-secure.middlewares=user-auth@file"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+
+
+networks:
+  proxy:
+    external: true

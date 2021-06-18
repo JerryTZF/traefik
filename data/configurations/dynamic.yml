@@ -1,0 +1,30 @@
+http:
+  middlewares:
+    secureHeaders:
+      headers:
+        sslRedirect: true # 只允许https请求
+        forceSTSHeader: true # 强制添加STS头
+        stsIncludeSubdomains: true # 让一个网站告诉大家，它应该只使用HTTPS，而不是使用 HTTP 进行通信的浏览器
+        stsPreload: true # 将preload标志附加到Strict-Transport-Security标头
+        stsSeconds: 31536000 # 是Strict-Transport-Security标题的最大年龄
+    user-auth:
+      basicAuth:
+        users:
+          - "admin:$apr1$hNlCp/tD$yRQrSj4a0CMMA4vYqpoej0"
+    bw-stripPrefix:
+      stripPrefix:
+        prefixes:
+          - "/notifications/hub"
+        forceSlash: false
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
+      #cipherSuites:
+      #  - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+      #  - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+      #  - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+      #  - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      #  - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+      #  - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+      preferServerCipherSuites: true
