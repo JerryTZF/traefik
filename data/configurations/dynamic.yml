@@ -10,7 +10,7 @@ http:
     user-auth:
       basicAuth:
         users:
-          - "admin:$apr1$hNlCp/tD$yRQrSj4a0CMMA4vYqpoej0"
+          - ""
     bw-stripPrefix:
       stripPrefix:
         prefixes:
